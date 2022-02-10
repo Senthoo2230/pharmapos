@@ -22,7 +22,8 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <!--external css-->
-  <link href="<?php echo base_url(); ?>assets/admin/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/admin/css/zabuto_calendar.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/admin/lib/gritter/css/jquery.gritter.css" />
   <!-- Custom styles for this template -->
