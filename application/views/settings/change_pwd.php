@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Password<span style="color: red;"> *</span></label>
                                 <div class="col-sm-8">
-                                <input type="password"  class="form-control" name="pwd">
+                                <input autocomplete="false" type="password"  class="form-control" name="pwd">
                                 <span class="text-danger"><?php echo form_error('pwd'); ?></span>
                                 </div>
                             </div>
@@ -32,7 +32,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">New Password<span style="color: red;"> *</span></label>
                                 <div class="col-sm-8">
-                                <input type="password"  class="form-control" name="npwd">
+                                <input autocomplete="false" type="password"  class="form-control" name="npwd">
                                 <span class="text-danger"><?php echo form_error('npwd'); ?></span>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Confirm Password<span style="color: red;"> *</span></label>
                                 <div class="col-sm-8">
-                                <input type="password"  class="form-control" name="cpwd">
+                                <input autocomplete="false" type="password"  class="form-control" name="cpwd">
                                 <span class="text-danger"><?php echo form_error('cpwd'); ?></span>
                                 </div>
                             </div>

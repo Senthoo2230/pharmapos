@@ -14,7 +14,7 @@
     <section class="wrapper">
         <div class="row mt">
             <div class="col-lg-8">
-                <?php echo form_open('Appoint/insert'); ?>
+                <?php echo form_open('Doctor/insert'); ?>
                     <div class="form-panel" style="padding:25px">
                       <div id="delete_msg">
                         <?php
@@ -29,17 +29,16 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Doctor Name<span style="color: red;"> *</span></label>
                             <div class="col-sm-8">
-                            <input type="text" value="<?php echo set_value('nic'); ?>" class="form-control" name="nic" id="nic">
-                            <div id="nic_list"></div>
-                            <span class="text-danger"><?php echo form_error('nic'); ?></span>
+                            <input type="text" value="<?php echo set_value('d_name'); ?>" class="form-control" name="d_name" id="d_name">
+                            <span class="text-danger"><?php echo form_error('d_name'); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Mobile No<span style="color: red;"> *</span></label>
                             <div class="col-sm-8">
-                            <input type="text" value="<?php echo set_value('mobile'); ?>" class="form-control" name="mobile" id="mobile">
-                            <span class="text-danger"><?php echo form_error('mobile'); ?></span>
+                            <input type="text" value="<?php echo set_value('d_mobile'); ?>" class="form-control" name="d_mobile" id="d_mobile">
+                            <span class="text-danger"><?php echo form_error('d_mobile'); ?></span>
                             </div>
                         </div>
 
@@ -47,7 +46,7 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Specialization<span style="color: red;"> *</span></label>
                           <div class="col-sm-8">
-                              <select id="area" class="form-control" name="area">
+                              <select id="d_special" class="form-control" name="d_special">
                                 <option value="">Select Specialization</option>
                                 <?php
                                 foreach ($specials as $spl) {
@@ -55,7 +54,7 @@
                                 }
                                 ?>
                               </select>
-                              <span class="text-danger"><?php echo form_error('area'); ?></span>
+                              <span class="text-danger"><?php echo form_error('d_special'); ?></span>
                           </div>
                           <div class="col-sm-1" style="padding-right: 0px; padding-left: 0px;">
                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_area">
@@ -68,67 +67,23 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Doctor's Fees</label>
                             <div class="col-sm-8">
-                            <input type="text" value="<?php echo set_value('dcharge'); ?>" class="form-control" name="dcharge" id="dcharge">
-                            <span class="text-danger"><?php echo form_error('dcharge'); ?></span>
-                            </div>
-                        </div>
-
-                        <?php
-                          $month = date('m');
-                          $day = date('d');
-                          $year = date('Y');
-                          
-                          $today = $year . '-' . $month . '-' . $day;
-                        ?>
-
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Date<span style="color: red;"> *</span></label>
-                          <div class="col-sm-8">
-                              <input class="form-control" type="date" value="<?php echo $today; ?>" name="app_date">
-                              <span class="text-danger"><?php echo form_error('app_date'); ?></span>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Time<span style="color: red;"> *</span></label>
-                          <div class="col-sm-8">
-                              <select id="tym" class="form-control" name="tym">
-                                <option value="">Select Time</option>
-                                <option value="10.00 AM">10.00 AM</option>
-                                <option value="10.15 AM">10.15 AM</option>
-                                <option value="10.30 AM">10.30 AM</option>
-                                <option value="10.45 AM">10.45 AM</option>
-                              </select>
-                              <span class="text-danger"><?php echo form_error('tym'); ?></span>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Comments</label>
-                            <div class="col-sm-8">
-                            <input type="text" value="<?php echo set_value('comment'); ?>" class="form-control" name="comment" id="comment">
-                            <span class="text-danger"><?php echo form_error('comment'); ?></span>
+                            <input type="text" value="<?php echo set_value('d_charge'); ?>" class="form-control" name="d_charge" id="d_charge">
+                            <span class="text-danger"><?php echo form_error('d_charge'); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Other Charges</label>
+                            <label class="col-sm-3 control-label">Doctor's Commision</label>
                             <div class="col-sm-4">
-                              <input type="text" class="form-control" name="other" id="other">
-                              <span class="text-danger" id="other_error"></span>
+                            <input type="text" value="<?php echo set_value('d_commision'); ?>" class="form-control" name="d_commision" id="d_commision">
+                            <span class="text-danger"><?php echo form_error('d_commision'); ?></span>
                             </div>
                             <div class="col-sm-4">
-                              <input type="text" class="form-control" name="amount" id="amount">
-                            </div>
-                            <div class="col-sm-1">
-                              <a class="btn btn-success" id="add_other">Add</a>
+                              <label class="radio-inline"><input type="radio" name="com_type" value="1" checked>Amount</label>
+                              <label class="radio-inline"><input type="radio" name="com_type" value="2">Percentage</label>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-sm-12" id="other_tbl">
-                                  
-                            </div>
-                        </div>
 
                         <div class="form-group">
                           <div class="col-sm-3"></div>

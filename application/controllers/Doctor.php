@@ -21,6 +21,7 @@ class Doctor extends CI_Controller
     }
   }
 
+  // Add Doctor Form
   public function Add()
   {
         $data['page_title'] = 'Add Doctor';
@@ -44,6 +45,39 @@ class Doctor extends CI_Controller
         $this->load->view('Doctor/add',$data);
         $this->load->view('Doctor/footer');
   }
+
+  public function insert(){
+    $this->form_validation->set_rules('d_name', 'Doctor Name', 'required');
+    $this->form_validation->set_rules('d_mobile', 'Mobile Number', 'required');
+    $this->form_validation->set_rules('d_special', 'Specilization', 'required');
+    $this->form_validation->set_rules('d_charge', 'Doctor Fees', 'required|numeric');
+
+    if ($this->form_validation->run() == FALSE) {
+        $this->Add();
+    }
+    else{
+        // Form Values
+        $d_name = $this->input->post('d_name');
+        $d_mobile = $this->input->post('d_mobile');
+        $d_special = $this->input->post('d_special');
+        $d_charge = $this->input->post('d_charge');
+        $d_commision = $this->input->post('d_commision');
+        $com_type = $this->input->post('com_type');
+
+        if ($d_commision == "") {
+          $com_type = NULL;
+          $d_commision = NULL;
+        }
+        else{
+          $com_type = $this->input->post('com_type');
+        }
+
+        // Insert Doctor Details into DB
+        $this->Doctor_model->insert_doctor($d_name,$d_mobile,$d_special,$d_charge,$d_commision,$com_type);
+        
+        redirect('Doctor/Add');
+    }
+}
 
 }
 

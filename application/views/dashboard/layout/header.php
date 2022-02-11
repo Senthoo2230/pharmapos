@@ -36,7 +36,7 @@
   <link href="<?php echo base_url(); ?>assets/admin/css/style.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>assets/admin/css/style-responsive.css" rel="stylesheet">
   <script src="<?php echo base_url(); ?>assets/admin/<?php echo base_url(); ?>assets/admin/lib/chart-master/Chart.js"></script>
-
+  
 </head>
 
 <body>
