@@ -41,13 +41,13 @@
                      <?php
                         foreach ($locations as $location) {
                             ?>
-                     <div class="row padding-15" style="margin-bottom:10px;">
-                        <label class="col-sm-4 control-label"><?php echo $loc = $location->location; ?></label>
-                        <div class="col-sm-8">
-                           <input type="number" placeholder="Service Amount for <?php echo $loc; ?>"  class="form-control" name="location<?php echo $location->id; ?>">
-                        </div>
-                     </div>
-                     <?php
+                           <div class="row padding-15" style="margin-bottom:10px;">
+                              <label class="col-sm-4 control-label"><?php echo $loc = $location->location; ?></label>
+                              <div class="col-sm-8">
+                                 <input type="number" placeholder="Service Amount for <?php echo $loc; ?>"  class="form-control" name="location<?php echo $location->id; ?>">
+                              </div>
+                           </div>
+                           <?php
                         }
                         ?>
                   </div>
@@ -92,14 +92,21 @@
                            <td><?php echo $ser->service; ?></td>
                            <?php
                             foreach ($locations as $loc) {
-                                $location_id = $loc->id;
-                                $amount = $CI->Setting_model->location_amount($location_id,$service_id);
-                                echo "<td>$amount</td>";
+                              $location_id = $loc->id;
+                              $count = $CI->Setting_model->location_avaiable($location_id,$service_id);
+                              if ($count == 1) {
+                                 $amount = $CI->Setting_model->location_amount($location_id,$service_id);
+                              }
+                              else{
+                                 $amount = 0;
+                              }
+                                
+                              echo "<td class='text-right'>$amount.00</td>";
                             } 
                            ?>
                            <td class="text-center">
                               <a href="<?php echo base_url(); ?>Settings/delete/<?php // $bill_no = $order->bill_no; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                              <a href="" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                              <a href="<?php echo base_url(); ?>Settings/edit_service/<?php echo $service_id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
                            </td>
                         </tr>
                         <?php

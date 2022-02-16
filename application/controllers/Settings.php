@@ -346,7 +346,8 @@ class Settings extends CI_Controller {
             $data['pending_count'] = $this->Dashboard_model->pending_count();
             $data['confirm_count'] = $this->Dashboard_model->confirm_count();
 
-            $data['services'] = $this->Setting_model->services();            
+            $data['services'] = $this->Setting_model->services();
+            $data['locations'] = $this->Setting_model->locations();            
 
             $data['nav'] = "Settings";
             $data['subnav'] = "Add Service";
@@ -361,18 +362,64 @@ class Settings extends CI_Controller {
     public function insert_service(){
 
         $this->form_validation->set_rules('service', 'Service', 'required|is_unique[service.service]');
-        $this->form_validation->set_rules('amount', 'Service Amount', 'required|numeric');
 
         if ($this->form_validation->run() == FALSE){
             $this->AddService();
         }
         else{
             $service = $this->input->post('service');
-            $amount = $this->input->post('amount');
-            $this->Setting_model->insert_services($service,$amount);
+            $this->Setting_model->insert_services($service);
+            $locations = $this->Setting_model->locations();
+            
+            foreach ($locations as $loc) {
+                $location_id = $loc->id;
+                $service_id = $this->Setting_model->last_service_id();
+                $location_amount = "location".$location_id;
+                $amount = $_POST[$location_amount];
+                $this->Setting_model->insert_service_amount($service_id,$location_id,$amount);
+            }
             $this->session->set_flashdata('msg', '<div style="font-size:13px;" class="alert alert-success">Added Successfully</div>');
             redirect('Settings/AddService');
         }
+    }
+
+    public function update_service(){
+        $service_id = $this->input->post('service_id');
+        $service = $this->input->post('service');
+        $this->Setting_model->update_services($service_id,$service);
+        $locations = $this->Setting_model->locations();
+        
+        foreach ($locations as $loc) {
+            $location_id = $loc->id;
+            $service_id = $this->input->post('service_id');
+            $location_amount = "location".$location_id;
+            $amount = $_POST[$location_amount]; 
+            echo $this->Setting_model->update_service_amount($service_id,$location_id,$amount);
+        }
+        
+        $this->session->set_flashdata('msg', '<div style="font-size:13px;" class="alert alert-success">Added Successfully</div>');
+        redirect('Settings/AddService');
+    }
+
+    public function edit_service(){
+            $data['page_title'] = 'Edit Service';
+            $data['username'] = $this->Dashboard_model->username();
+
+            $data['pending_count'] = $this->Dashboard_model->pending_count();
+            $data['confirm_count'] = $this->Dashboard_model->confirm_count();
+
+            $data['services'] = $this->Setting_model->services();
+            $data['locations'] = $this->Setting_model->locations();
+            $data['service_id'] =  $this->uri->segment('3');         
+
+            $data['nav'] = "Settings";
+            $data['subnav'] = "Add Service";
+
+            $this->load->view('dashboard/layout/header',$data);
+            $this->load->view('dashboard/layout/aside',$data);
+            //$this->load->view('aside',$data);
+            $this->load->view('settings/edit-service',$data);
+            $this->load->view('settings/footer');
     }
 
     public function deleteService(){
