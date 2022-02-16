@@ -346,9 +346,7 @@ class Settings extends CI_Controller {
             $data['pending_count'] = $this->Dashboard_model->pending_count();
             $data['confirm_count'] = $this->Dashboard_model->confirm_count();
 
-            $data['services'] = $this->Setting_model->services();
-            // Get all locations for add amount
-            $data['locations'] = $this->Setting_model->locations(); //103           
+            $data['services'] = $this->Setting_model->services();            
 
             $data['nav'] = "Settings";
             $data['subnav'] = "Add Service";
@@ -363,24 +361,15 @@ class Settings extends CI_Controller {
     public function insert_service(){
 
         $this->form_validation->set_rules('service', 'Service', 'required|is_unique[service.service]');
+        $this->form_validation->set_rules('amount', 'Service Amount', 'required|numeric');
 
         if ($this->form_validation->run() == FALSE){
             $this->AddService();
         }
         else{
             $service = $this->input->post('service');
-            $locations = $this->Setting_model->locations(); //103
-            //Insert Service into Service tbl
-            $this->Setting_model->insert_services($service); //85
-            //Last Service ID
-            $service_id = $this->Setting_model->last_service_id(); //110
-            foreach ($locations as $loc) {
-                $location_id = $loc->id;
-                $input_name = "location".$loc->id;
-                $amount = $_POST[$input_name];
-                //Insert Service amount location wise
-                $this->Setting_model->insert_amount($location_id,$service_id,$amount); //118
-            }
+            $amount = $this->input->post('amount');
+            $this->Setting_model->insert_services($service,$amount);
             $this->session->set_flashdata('msg', '<div style="font-size:13px;" class="alert alert-success">Added Successfully</div>');
             redirect('Settings/AddService');
         }

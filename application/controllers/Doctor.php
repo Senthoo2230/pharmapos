@@ -74,10 +74,37 @@ class Doctor extends CI_Controller
 
         // Insert Doctor Details into DB
         $this->Doctor_model->insert_doctor($d_name,$d_mobile,$d_special,$d_charge,$d_commision,$com_type);
-        
+        $this->session->set_flashdata('docmsg',"<div class='alert alert-success'>Doctor Added Successfully!</div>");
         redirect('Doctor/Add');
     }
-}
+  }
+
+  public function View()
+  {
+        $data['page_title'] = 'Doctor';
+        $data['username'] = $this->Dashboard_model->username();
+        // Customer List
+        $data['pendings'] = $this->Booking_model->pending();
+
+        $data['pending_count'] = $this->Dashboard_model->pending_count();
+        $data['confirm_count'] = $this->Dashboard_model->confirm_count();
+
+        //Show Spelizations
+        $data['specials'] = $this->Appoint_model->specials(); //28
+
+        //Show Doctors
+        $data['doctors'] = $this->Doctor_model->doctors(); //28
+
+        
+        $data['nav'] = "Doctor";
+        $data['subnav'] = "Doctor";
+
+        $this->load->view('dashboard/layout/header',$data);
+        $this->load->view('dashboard/layout/aside',$data);
+        //$this->load->view('aside',$data);
+        $this->load->view('Doctor/view',$data);
+        $this->load->view('Doctor/footer');
+  }
 
 }
 

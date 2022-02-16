@@ -82,9 +82,10 @@ class Setting_model extends CI_Model
         return $result;
     }
 
-    public function insert_services($service){
+    public function insert_services($service,$amount){
         $data = array(
-            'service' => $service
+            'service' => $service,
+            'amount' => $amount
         );
         $this->db->insert('service', $data);
     }
@@ -97,40 +98,6 @@ class Setting_model extends CI_Model
     public function del_inv_setting($id){
         $this->db->where('id', $id);
         $this->db->delete('int_setting');
-    }
-
-    public function locations(){
-        $sql = "SELECT * FROM location ORDER BY location ASC";
-        $query = $this->db->query($sql);
-        $result = $query->result();
-
-        return $result;
-    }
-
-    public function last_service_id(){
-        $sql = "SELECT * FROM service ORDER BY updated DESC LIMIT 1";
-        $query = $this->db->query($sql);
-        $row = $query->first_row();
-
-        return $row->service_id;
-    }
-
-    //Insert amount for locations
-    public function insert_amount($location_id,$service_id,$amount){
-        $data = array(
-            'service_id' => $service_id,
-            'location_id' => $location_id,
-            'amount' => $amount
-        );
-        $this->db->insert('service_amount', $data);
-    }
-
-    public function location_amount($location_id,$service_id){
-        $sql = "SELECT * FROM service_amount WHERE location_id = $location_id AND service_id = $service_id";
-        $query = $this->db->query($sql);
-        $row = $query->first_row();
-
-        return $row->amount;
     }
 }
 ?>

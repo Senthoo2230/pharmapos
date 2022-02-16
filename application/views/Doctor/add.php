@@ -18,8 +18,8 @@
                     <div class="form-panel" style="padding:25px">
                       <div id="delete_msg">
                         <?php
-                          if ($this->session->flashdata('invmsg')) {
-                            echo $this->session->flashdata('invmsg');
+                          if ($this->session->flashdata('docmsg')) {
+                            echo $this->session->flashdata('docmsg');
                           }
                         ?>
                       </div>

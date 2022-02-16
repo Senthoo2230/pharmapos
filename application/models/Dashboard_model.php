@@ -41,7 +41,7 @@ class Dashboard_model extends CI_Model
     }
 
     public function menu($user_level){
-        $sql = "SELECT * FROM user_menu WHERE user_level = $user_level";
+        $sql = "SELECT * FROM user_menu WHERE user_level = $user_level ORDER BY order_menu";
         $query = $this->db->query($sql);
         $result = $query->result();
 
