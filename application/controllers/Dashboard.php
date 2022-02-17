@@ -34,6 +34,17 @@ class Dashboard extends CI_Controller {
         $this->load->view('footer');
         $this->load->view('dashboard/layout/footer');
     }
+
+    public function db_script(){
+        /*ALTER TABLE `users`
+        ADD COLUMN `location_id` INT(11) NOT NULL AFTER `user_level`;
+
+        ALTER TABLE `appoint`
+	    ADD COLUMN `user_id` INT(11) NOT NULL AFTER `comment`;
+
+        ALTER TABLE `appoint`
+	    ADD COLUMN `user_location` INT(11) NOT NULL AFTER `user_id`;*/
+    }
 }
 
 /* End of file DashboardController.php and path /application/controllers/DashboardController.php */

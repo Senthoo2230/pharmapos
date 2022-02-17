@@ -42,10 +42,12 @@ class LoginController extends CI_Controller {
 
                 $user_level = $this->LoginModel->user_level($username, $password);
                 $user_id = $this->LoginModel->user_id($username, $password);
+                $user_location = $this->LoginModel->user_location($username, $password);
 
                 $logged_data = array(
                     'user_id'  => $user_id,
-                    'user_level'     => $user_level
+                    'user_level'     => $user_level,
+                    'user_location'     => $user_location
                 );
             
                 $this->session->set_userdata($logged_data);

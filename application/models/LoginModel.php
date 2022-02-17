@@ -40,6 +40,17 @@ class LoginModel extends CI_Model
 
     }
 
+    // Logged User Location
+    public function user_location($username,$password){
+        $epassword = md5($password);
+        $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+        $query = $this->db->query($sql);
+        $row = $query->row();
+
+        return $row->location_id;
+
+    }
+
     public function insert_log($id,$name){
         $data = array(
             'user_id' => $id,
