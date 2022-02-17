@@ -170,6 +170,12 @@ class Setting_model extends CI_Model
     public function deleteService($id){
         $sql = "DELETE FROM service WHERE service_id=$id";
         $query = $this->db->query($sql);
+        $this->delete_location_service($id);
+    }
+
+    public function delete_location_service($id){
+        $sql = "DELETE FROM service_amount WHERE service_id=$id";
+        $query = $this->db->query($sql);
     }
 
     public function del_inv_setting($id){

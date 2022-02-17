@@ -290,6 +290,17 @@ class Appoint extends CI_Controller {
             redirect('Appoint/appointments');
         }
     }
+    // Add new Specilization
+    public function add_area(){
+        $area = $this->input->post('area');
+        $this->Appoint_model->insert_area($area);//191
+
+
+        if ($this->uri->segment('3')) {
+            redirect('Doctor/Add');
+        }
+        redirect('Appoint/addnew');
+    }
 
 }
 

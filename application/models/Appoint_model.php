@@ -187,4 +187,12 @@ class Appoint_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->update('appoint', $data);
     }
+
+    public function insert_area($area){
+        $data = array(
+            'specialization' => $area
+        );
+    
+        $this->db->insert('specialization', $data);
+    }
 }

@@ -68,6 +68,7 @@
 
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Specialization<span style="color: red;"> *</span></label>
+
                           <div class="col-sm-8">
                               <select id="area" class="form-control" name="area">
                                 <option value="">Select Specialization</option>
@@ -79,11 +80,13 @@
                               </select>
                               <span class="text-danger"><?php echo form_error('area'); ?></span>
                           </div>
+
                           <div class="col-sm-1" style="padding-right: 0px; padding-left: 0px;">
                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_area">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                               </button>
                           </div>
+
                         </div>
 
                         <div class="form-group">
@@ -95,9 +98,11 @@
                               <span class="text-danger"><?php echo form_error('doctor'); ?></span>
                           </div>
                           <div class="col-sm-1" style="padding-right: 0px; padding-left: 0px;">
-                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_dr">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                              </button>
+                             <a href="<?php echo base_url(); ?>Doctor/Add">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_dr">
+                                  <i class="fa fa-plus" aria-hidden="true"></i>
+                                </button>
+                             </a>
                           </div>
                         </div>
 
@@ -183,23 +188,23 @@
 </section>
 
 <!-- Modal -->
-<div id="catogery" class="modal fade" role="dialog">
+<div id="add_area" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add New Catogery</h4>
+        <h4 class="modal-title">Add New Specialization</h4>
       </div>
 
-      <form method="post" action="<?php echo base_url(); ?>Inventory/add_catogery">
+      <form method="post" action="<?php echo base_url(); ?>Appoint/add_area">
         <div class="modal-body">
           <div>
-              <label>Catogery</label>
+              <label>Specialization</label>
             </div>
             <div>
-              <input class="form-control" type="text" name="catogery">
+              <input class="form-control" type="text" name="area">
             </div>
           
         </div>

@@ -424,7 +424,8 @@ class Settings extends CI_Controller {
 
     public function deleteService(){
         $id =  $this->uri->segment('3');
-        $this->Setting_model->deleteService($id); // 
+        
+        $this->Setting_model->deleteService($id);
         $this->session->set_flashdata('msg', '<div style="font-size:13px;" class="alert alert-danger">Service Deleted</div>');
         redirect('Settings/AddService');
     }

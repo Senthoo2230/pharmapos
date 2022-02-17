@@ -102,23 +102,23 @@
 </section>
 
 <!-- Modal -->
-<div id="catogery" class="modal fade" role="dialog">
+<div id="add_area" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add New Catogery</h4>
+        <h4 class="modal-title">Add New Specialization</h4>
       </div>
 
-      <form method="post" action="<?php echo base_url(); ?>Inventory/add_catogery">
+      <form method="post" action="<?php echo base_url(); ?>Appoint/add_area/doctor">
         <div class="modal-body">
           <div>
-              <label>Catogery</label>
+              <label>Specialization</label>
             </div>
             <div>
-              <input class="form-control" type="text" name="catogery">
+              <input class="form-control" type="text" name="area">
             </div>
           
         </div>
@@ -126,141 +126,6 @@
           <input type="submit" name="save_catogery" value="Save" class="btn btn-success">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
-      </form>
-    </div>
-
-  </div>
-</div>
-<!-- Catogery Modal -->
-
-<!-- Sub Cat Modal -->
-<div id="sub_catogery" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Sub Catogery</h4>
-      </div>
-
-      <form method="post" action="<?php echo base_url(); ?>Inventory/add_sub_catogery">
-      <div class="modal-body">
-          <div>
-            <label>Catogery</label>
-          </div>
-          <div>
-            <select class="form-control" id="main_catogery" name="catogery">
-            <?php
-              foreach ($catogories as $catogery) {
-                echo "<option value='$catogery->cat_id'>$catogery->catogery</option>";
-              }
-            ?>
-            </select>
-          </div>
-
-          <div>
-            <label>Sub Catogery</label>
-          </div>
-          <div>
-            <input class="form-control" type="text" name="sub_catogery">
-          </div>
-        
-      </div>
-      <div class="modal-footer">
-        <input type="submit" name="save_sub_catogery" value="Save" class="btn btn-success">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
-
-  </div>
-</div>
-<!-- Catogery Modal -->
-
-<!-- Filter Range Modal -->
-<div id="filter_range" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Filter Range</h4>
-      </div>
-
-      <form method="post" action="<?php echo base_url(); ?>Inventory/add_frange">
-
-      <div class="modal-body">
-          <div>
-            <label>Catogery</label>
-          </div>
-          <div>
-            <select class="form-control" id="main_catogery" name="catogery">
-            <?php
-              foreach ($catogories as $catogery) {
-                echo "<option value='$catogery->cat_id'>$catogery->catogery</option>";
-              }
-            ?>
-            </select>
-          </div>
-          <div>
-            <label>Filter Range</label>
-          </div>
-          <div>
-            <input class="form-control" type="text" name="filter_range">
-          </div>
-      </div>
-
-      <div class="modal-footer">
-        <input type="submit" name="save_filter_range" value="Save" class="btn btn-success">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
-
-  </div>
-</div>
-<!-- Filter Modal -->
-
-<!-- Modal -->
-<div id="brand" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Brand</h4>
-      </div>
-
-      <form method="post" action="<?php echo base_url(); ?>Inventory/add_brand">
-      <div class="modal-body">
-          <div>
-            <label>Catogery</label>
-          </div>
-          <div>
-            <select class="form-control" id="main_catogery" name="catogery">
-              <?php
-                foreach ($catogories as $catogery) {
-                  echo "<option value='$catogery->cat_id'>$catogery->catogery</option>";
-                }
-              ?>
-            </select>
-          </div>
-
-          <div>
-            <label>Brand</label>
-          </div>
-          <div>
-            <input class="form-control" type="text" name="brand">
-          </div>
-        
-      </div>
-      <div class="modal-footer">
-        <input type="submit" name="save_brand" value="Save" class="btn btn-success">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
       </form>
     </div>
 
