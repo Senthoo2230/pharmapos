@@ -36,14 +36,9 @@ class Dashboard extends CI_Controller {
     }
 
     public function db_script(){
-        /*ALTER TABLE `users`
-        ADD COLUMN `location_id` INT(11) NOT NULL AFTER `user_level`;
-
-        ALTER TABLE `appoint`
-	    ADD COLUMN `user_id` INT(11) NOT NULL AFTER `comment`;
-
-        ALTER TABLE `appoint`
-	    ADD COLUMN `user_location` INT(11) NOT NULL AFTER `user_id`;*/
+        /*patient_ni
+        ALTER TABLE lab_service Modify column patient_nic varchar(10);  
+        */
     }
 }
 

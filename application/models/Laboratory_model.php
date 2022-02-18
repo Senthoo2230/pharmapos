@@ -59,6 +59,69 @@ class Laboratory_model extends CI_Model
     
         $this->db->insert('lab_service', $data);
     }
+
+    public function view_services(){
+        $sql = "SELECT * FROM lab_service ORDER BY updated DESC";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
+    public function patient_detail($nic){
+        $sql = "SELECT * FROM patient WHERE nic = '$nic' LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row;
+    }
+
+    public function get_location($id){
+        $sql = "SELECT * FROM location WHERE id = $id LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row->location;
+    }
+
+    public function get_service($id){
+        $sql = "SELECT service FROM service WHERE service_id = $id LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row->service;
+    }
+
+    public function get_doctor($id){
+        $sql = "SELECT * FROM doctor WHERE id = $id LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row;
+    }
+
+    public function single_service($id){
+        $sql = "SELECT * FROM lab_service WHERE id = $id LIMIT 1";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row;
+    }
+
+    public function update_lab_service($id,$nic,$location,$service,$charge,$doctor,$comment){
+        $data = array(
+            'user_id' => $this->session->user_id,
+            'patient_nic' => $nic,
+            'lab_service_id' => $service,
+            'location_id' => $location,
+            'amount' => $charge,
+            'doctor_id' => $doctor,
+            'comment' => $comment,
+        );
+        
+        $this->db->where('id', $id);
+        $this->db->update('lab_service', $data);
+    }
+
+    public function delete_service($id)
+    {
+        $sql = "DELETE FROM lab_service WHERE id=$id";
+        $query = $this->db->query($sql);
+    }
                         
 }
 

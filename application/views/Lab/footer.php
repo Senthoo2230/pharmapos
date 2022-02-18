@@ -175,19 +175,36 @@
         });
       });
 
-      $("#doctor").change(function(){
-        var doctor = $(this).val();
+      $("#location").change(function(){
+        var service = $('#service').val();
+        var location = $("#location").val();
         $.ajax({
-          url:"<?php echo base_url(); ?>Appoint/doctors_charge",
+          url:"<?php echo base_url(); ?>Laboratory/Service_charge",
           type:"POST",
           cache:false,
-          data:{doctor:doctor},
+          data:{service:service, location:location},
           success:function(data){
             //alert(data);
-            $("#dcharge").val(data);
+            $("#charge").val(data);
           }
         });
-      });  
+      });
+
+      $('.del_service').click(function() {
+        var id = $(this).attr("id");
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>Laboratory/delete_service", //178
+                data: ({
+                    id: id
+                }),
+                cache: false,
+                success: function(data) {
+                  //alert(data);
+                  $("#service" + id).fadeOut('slow');
+                }
+          });
+      });
     });
 
     // Price for Service
