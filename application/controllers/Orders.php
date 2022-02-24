@@ -459,30 +459,6 @@ class Orders extends CI_Controller {
         echo $customername = $this->Orders_model->get_customername($v_no);
     }
 
-    public function do_upload(){
-                $config['upload_path']          = './uploads/';
-                $config['allowed_types']        = 'gif|jpg|png';
-                $config['max_size']             = 3000;
-                $config['max_width']            = 2000;
-                $config['max_height']           = 2000;
-                $config['file_name'] = "order_".$bill_no;
-
-                $this->load->library('upload', $config);
-
-                if ( ! $this->upload->do_upload('img'))
-                {
-                        $error = array('error' => $this->upload->display_errors());
-
-                        $this->load->view('upload_form', $error);
-                }
-                else
-                {
-                        $data = array('upload_data' => $this->upload->data());
-
-                        $this->load->view('upload_success', $data);
-                }
-    }
-
     public function validation(){
 
         $this->form_validation->set_rules('vehicle_no', 'Vehicle Number', 'required');
