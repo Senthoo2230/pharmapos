@@ -37,7 +37,7 @@ class Dashboard extends CI_Controller {
 
     public function db_script(){
         /*patient_ni
-        ALTER TABLE lab_service Modify column patient_nic varchar(10);  
+        ALTER TABLE lab_service Modify column patient_nic varchar(255);  
         */
     }
 }

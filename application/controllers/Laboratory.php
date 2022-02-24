@@ -36,7 +36,7 @@ class Laboratory extends CI_Controller
         $data['services'] = $this->Laboratory_model->services();
         $data['doctors'] = $this->Laboratory_model->doctors();
 
-        $data['nav'] = "Lap Service";
+        $data['nav'] = "Lab Test";
         $data['subnav'] = "Add Services";
 
         $this->load->view('dashboard/layout/header',$data);
@@ -58,7 +58,7 @@ class Laboratory extends CI_Controller
         // Get All Services
         $data['services'] = $this->Laboratory_model->view_services(); //63
 
-        $data['nav'] = "Lap Service";
+        $data['nav'] = "Lab Test";
         $data['subnav'] = "View";
 
         $this->load->view('dashboard/layout/header',$data);
