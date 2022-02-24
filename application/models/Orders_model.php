@@ -188,7 +188,7 @@ class Orders_model extends CI_Model
                 'payment_method' => $p_method
             );
             $this->db->insert('bill_item', $data);
-            return ture;
+            return true;
         }
         else{
             return false;
@@ -333,7 +333,7 @@ class Orders_model extends CI_Model
         $this->db->update('orders', $data);
     }
 
-    public function update_customer($vehicle_no,$contact_no){
+    /*public function update_customer($vehicle_no,$contact_no){
         $data = array(
             'vehicle_no' => $vehicle_no,
             'contact_no' => $contact_no
@@ -341,7 +341,7 @@ class Orders_model extends CI_Model
         
         $this->db->where('order_id', $order_id);
         $this->db->update('orders', $data);
-    }
+    }*/
 
 
     public function update_int($item_id){
