@@ -168,17 +168,31 @@ class Orders_model extends CI_Model
         $this->db->update('orders', $data);
     }
 
-    
+    public function is_same_order_id($order_id){
+        $sql = "SELECT order_id FROM bill_item WHERE order_id = $order_id";
+        $query = $this->db->query($sql);
+        $conut = $query->num_rows();
+
+        return $conut;
+    }
+
     public function insert_order($order_id,$bill_no,$sub_total,$discount,$p_amount,$p_method){
-        $data = array(
-            'order_id' => $order_id,
-            'bill_no' => $bill_no,
-            'total' => $sub_total,
-            'discount' => $discount,
-            'payment' => $p_amount,
-            'payment_method' => $p_method
-        );
-        $this->db->insert('bill_item', $data);
+        // Same order in bill item is not acceptable
+        if ($this->is_same_order_id($order_id) == 0) {
+            $data = array(
+                'order_id' => $order_id,
+                'bill_no' => $bill_no,
+                'total' => $sub_total,
+                'discount' => $discount,
+                'payment' => $p_amount,
+                'payment_method' => $p_method
+            );
+            $this->db->insert('bill_item', $data);
+            return ture;
+        }
+        else{
+            return false;
+        }
     }
 
     public function bill_data($bill_no){

@@ -104,7 +104,7 @@
     $(document).ready(function(){
       setTimeout(function() {
         $("#delete_msg").hide('blind', {}, 500)
-    }, 3000);
+    }, 5000);
     $("#search_item").focus();
     });
 
@@ -155,11 +155,6 @@
         
       }); 
     });
-
-    $(document).ready(function(){
-        
-    }); 
-
     // Price for Service
     $(document).ready(function(){
       $("#add_order_item").click(function(){

@@ -8,8 +8,8 @@
       <section class="wrapper">
         <h3>Orders</h3>
         <div id="delete_msg"><?php
-          if ($this->session->flashdata('delete')) {
-            echo $this->session->flashdata('delete');
+          if ($this->session->flashdata('ordermsg')) {
+            echo $this->session->flashdata('ordermsg');
           }
         ?>
         </div>

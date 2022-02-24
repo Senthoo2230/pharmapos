@@ -13,11 +13,13 @@
     
     margin-top:20px;
     padding:20px 10px;
-    background-color: #f7f7f7;
-    height:150px;
-    border-radius: 18px;
+    background-color: #B8405E;
+    height:200px;
+    border-radius: 3px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     transition: transform .2s; /* Animation */
+    color:#EEE6CE;
+    font-size:18px;
   }
   .item_box:hover{
     transform: scale(1.1);
@@ -46,7 +48,7 @@
           <div class="col-lg-12">
             <div class="form-panel">
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4" id="add_items">
                   <div class="add_items">
                       <div class="m-top-10">
                         <table class="table">
@@ -252,13 +254,16 @@
                     </div>
                   </div>
                   <div class="row" id="items">
+
+                  <!-- href="<?php echo base_url(); ?>Orders/insert_order_item/<?php echo $p_id; ?>/<?php echo $order_id; ?>" -->
                     
                       <?php
                       foreach ($items as $itm) {
                         $p_id = $itm->id;
                         ?>
-                        <a href="<?php echo base_url(); ?>Orders/insert_order_item/<?php echo $p_id; ?>/<?php echo $order_id; ?>">
-                          <div class="col-lg-3 col-md-6 col-sm-12">
+
+                        <a id="single_item<?php echo $p_id; ?>">
+                          <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="item_box">
                               <div class="item_m">
                                 <?php
@@ -269,7 +274,7 @@
                               <div class="item_m">
                                 <?php echo $item_id = $itm->item_id; ?>
                               </div>
-                              <div class="item_m">
+                              <div class="item_m fnt-bold" style="color:#313552;">
                                 <?php echo $CI->Orders_model->item_name($item_id); ?>
                               </div>
                               <div class="item_m">
@@ -278,6 +283,28 @@
                             </div>
                           </div>
                         </a>
+                        <input hidden type="text" id="p_id<?php echo $p_id; ?>" value="<?php echo $p_id; ?>">
+                        <input hidden type="text" id="order_id<?php echo $p_id; ?>" value="<?php echo $order_id; ?>">
+
+                        <script>
+                          $(document).ready(function(){
+                            $("#single_item<?php echo $p_id; ?>").click(function(){
+                              var order_id = $("#order_id<?php echo $p_id; ?>").val();
+                              var p_id = $("#p_id<?php echo $p_id; ?>").val();
+                                $.ajax({
+                                  url:"<?php echo base_url(); ?>Orders/insert_order_item", //803
+                                  type:"POST",
+                                  cache:false,
+                                  data:{order_id:order_id,p_id:p_id},
+                                  success:function(data){
+                                    //alert(data);
+                                    $("#add_items").html(data);
+                                  }
+                                });
+                            }); 
+                          });
+                        </script>
+
                         <?php
                       }
                       ?>
