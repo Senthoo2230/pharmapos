@@ -91,13 +91,15 @@ class Purchase extends CI_Controller
   }
 
   public function insert_items(){
-            $item = $this->input->post('item');
+            $item_txt = $this->input->post('item');
             $quantity = $this->input->post('quantity');
             $purchase_id = $this->input->post('purchase_id');
             $s_price = $this->input->post('s_price');
             $p_price = $this->input->post('p_price');
             $ex_date = $this->input->post('ex_date');
 
+            //get item_id is barcode or item_id
+            $item = $this->Purchase_model->get_item_id($item_txt);
             if ($this->Purchase_model->item_available($item) == 0) {
               $error =  "<div class='alert alert-danger'>Please Select Available Item. Add new item <a href='../Inventory/Add'>Click Here</a></div>";
             }

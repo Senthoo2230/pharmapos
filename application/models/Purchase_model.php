@@ -177,7 +177,7 @@ class Purchase_model extends CI_Model
     }
 
     public function fill_item_name($item_id){
-        $sql = "SELECT item_name FROM int_items WHERE item_id = '$item_id'";
+        $sql = "SELECT item_name FROM int_items WHERE item_id = '$item_id' OR barcode = '$item_id'";
         $query = $this->db->query($sql);
         $count = $query->num_rows();
         $row = $query->first_row();
@@ -217,6 +217,21 @@ class Purchase_model extends CI_Model
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row->id;
+    }
+
+    public function get_item_id($item)
+    {
+        $sql = "SELECT item_id FROM int_items WHERE item_id = '$item' OR barcode = '$item'";
+        $query = $this->db->query($sql);
+        $count = $query->num_rows();
+        if ($count == 0) {
+            return $count;
+        }
+        else{
+            $row = $query->first_row();
+            return $row->item_id;
+        }
+        
     }
     
                         

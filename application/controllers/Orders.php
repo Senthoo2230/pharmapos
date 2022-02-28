@@ -157,16 +157,16 @@ class Orders extends CI_Controller {
                   <div style="margin-top:10px;">
                     <div class="row fnt-15 fnt-bold">
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <a class="btn btn-primary btn-wt-100" href="<?php echo base_url(); ?>Orders/clear_items/<?php echo $order_id; ?>">Clear</a>
+                        <a class="btn btn-order btn-wt-100" href="<?php echo base_url(); ?>Orders/clear_items/<?php echo $order_id; ?>">Clear</a>
                       </div>
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <button type="button" class="btn btn-primary btn-wt-100" data-toggle="modal" data-target="#discount">Discount</button>
+                        <button type="button" class="btn btn-order btn-wt-100" data-toggle="modal" data-target="#discount">Discount</button>
                       </div>
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <a class="btn btn-primary btn-wt-100" href="<?php echo base_url(); ?>Orders/hold_order/<?php echo $order_id; ?>">Hold</a>
+                        <a class="btn btn-order btn-wt-100" href="<?php echo base_url(); ?>Orders/hold_order/<?php echo $order_id; ?>">Hold</a>
                       </div>
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <button type="button" class="btn btn-primary btn-wt-100" data-toggle="modal" data-target="#pay">Pay</button>
+                        <button type="button" class="btn btn-order btn-wt-100" data-toggle="modal" data-target="#pay">Pay</button>
                       </div>
                     </div>
                   </div>
@@ -887,32 +887,35 @@ class Orders extends CI_Controller {
 
         if ($this->input->post('search_text')) {
             $search_text = $this->input->post('search_text');
+            $item_ok = $this->Orders_model->search_items_available($search_text);
             $order_id = $this->Orders_model->last_order_id();
             if ($search_text == "") {
-                $items = $this->Orders_model->purchase_items();
-                foreach ($items as $row)
-                {
-                    $p_id = $row->id;
-                        ?>
-                        <a href="<?php echo base_url(); ?>Orders/insert_order_item/<?php echo $p_id; ?>/<?php echo $order_id; ?>">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="item_box">
-                                    <div class="item_m">
-                                    <?php echo $item_id = $row->item_id; ?>
-                                    </div>
-                                    <div class="item_m">
-                                    <?php echo $this->Orders_model->item_name($item_id); ?>
-                                    </div>
-                                    <div class="item_m">
-                                    Qty : <?php echo $item_id = $row->quantity; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <?php
-                }
             }
             else{
+                if ($item_ok == 1) {
+                    //Get Purchase ID for serach text
+                    $item_id = $this->Orders_model->item_id_of_barcode($search_text);
+                    $p_id = $this->Orders_model->get_purcase_id($item_id);
+                    ?>
+                    <script>
+                        $(document).ready(function(){
+                            var order_id = <?php echo $order_id; ?>;
+                            var p_id = <?php echo $p_id; ?>;
+                                $.ajax({
+                                url:"<?php echo base_url(); ?>Orders/insert_order_item", //803
+                                type:"POST",
+                                cache:false,
+                                data:{order_id:order_id,p_id:p_id},
+                                success:function(data){
+                                    //alert(data);
+                                    $("#add_items").html(data);
+                                    $("#search_item").focus();
+                                }
+                            });
+                        });
+                    </script>
+                    <?php
+                }
                 $result = $this->Orders_model->search_items($search_text);
                 foreach ($result as $row)
                 {
@@ -950,6 +953,7 @@ class Orders extends CI_Controller {
                                     success:function(data){
                                         //alert(data);
                                         $("#add_items").html(data);
+                                        $("#search_item").focus();
                                     }
                                     });
                                 }); 

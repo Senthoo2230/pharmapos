@@ -3,14 +3,27 @@
   .add_items{
     width:100%;
     height:380px;
-    background-color: #f7f7f7;
+    background-color: #EEE6CE;
     padding:10px;
+    color:#313552;
+    font-size:15px;
+  }
+  .btn-order{
+    color: #fff;
+    background-color: #B8405E;
+    border-color: #B8405E;
+    border-radius: 0px;
+  }
+  .btn-order:hover {
+    background-color: #313552;
+    border-color: #313552;
+    color:#fff;
   }
   .btn_item{
     width:100%;
   }
   .item_box{
-    
+    cursor:pointer;
     margin-top:20px;
     padding:20px 10px;
     background-color: #B8405E;
@@ -26,6 +39,7 @@
   }
   .item_m{
     padding:5px 0px;
+    color:#313552;
   }
   .fnt-15{
     font-size:15px;
@@ -42,8 +56,7 @@
 </style>
 <!--main content start-->
 <section id="main-content">
-    <section class="wrapper site-min-height">  
-        <h3>Add New Order</h3>
+    <section class="wrapper site-min-height"> 
         <div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
@@ -122,16 +135,16 @@
                   <div style="margin-top:10px;">
                     <div class="row fnt-15 fnt-bold">
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <a class="btn btn-primary btn-wt-100" href="<?php echo base_url(); ?>Orders/clear_items/<?php echo $order_id; ?>">Clear</a>
+                        <a class="btn btn-order btn-wt-100" href="<?php echo base_url(); ?>Orders/clear_items/<?php echo $order_id; ?>">Clear</a>
                       </div>
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <button type="button" class="btn btn-primary btn-wt-100" data-toggle="modal" data-target="#discount">Discount</button>
+                        <button type="button" class="btn btn-order btn-wt-100" data-toggle="modal" data-target="#discount">Discount</button>
                       </div>
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <a class="btn btn-primary btn-wt-100" href="<?php echo base_url(); ?>Orders/hold_order/<?php echo $order_id; ?>">Hold</a>
+                        <a class="btn btn-order btn-wt-100" href="<?php echo base_url(); ?>Orders/hold_order/<?php echo $order_id; ?>">Hold</a>
                       </div>
                       <div class="col-xs-3 col-md-6 col-lg-3">
-                        <button type="button" class="btn btn-primary btn-wt-100" data-toggle="modal" data-target="#pay">Pay</button>
+                        <button type="button" class="btn btn-order btn-wt-100" data-toggle="modal" data-target="#pay">Pay</button>
                       </div>
                     </div>
                   </div>
@@ -211,6 +224,7 @@
                               <label>Balance:</label>
                             </div>
                             <div class="col-sm-7">
+                              <div></div>
                               <input class="form-control has-error" type="text" name="balance" id="balance" disabled>
                             </div>
                           </div>
@@ -243,17 +257,41 @@
                 </div>
                 <div class="col-md-8">
                   <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                       <a href="" class="btn btn-primary btn_item">Catogeries</a>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                       <a href="" class="btn btn-primary btn_item">Patient</a>
                     </div>
                     <div class="col-md-6">
                       <input type="text" class="form-control" placeholder="Search" id="search_item">
                     </div>
+                    <div class="col-md-2">
+                      <a class="btn btn-primary btn_item" id="clear_btn" onclick="clear_search()">Clear</a>
+                    </div>
                   </div>
                   <div class="row" id="items">
+
+                  <script>
+                    function clear_search(){
+                      $("#search_item").val("");
+                    }
+                    $(document).ready(function(){
+                      // Get the input field
+                      var input = document.getElementById("search_item");
+
+                      // Execute a function when the user releases a key on the keyboard
+                      input.addEventListener("keyup", function(event) {
+                        // Number 13 is the "Enter" key on the keyboard
+                        if (event.keyCode === 13) {
+                          // Cancel the default action, if needed
+                          event.preventDefault();
+                          // Trigger the button element with a click
+                          document.getElementById("clear_btn").click();
+                        }
+                      });
+                    });
+                  </script>
 
                   <!-- href="<?php echo base_url(); ?>Orders/insert_order_item/<?php echo $p_id; ?>/<?php echo $order_id; ?>" -->
                     

@@ -862,6 +862,37 @@ class Orders_model extends CI_Model
         return $row->barcode;
     }
 
+    public function item_id_of_barcode($barcode)
+    {
+        $sql = "SELECT item_id FROM int_items WHERE barcode = '$barcode'";
+        $query = $this->db->query($sql);
+        $count = $query->num_rows();
+        if ($count == 1) {
+            $row = $query->first_row();
+            return $row->item_id;
+        }
+        else{
+            return 0;
+        }
+        
+    }
+
+    public function search_items_available($search_id)
+    {
+        $item_id = $this->item_id_of_barcode($search_id);
+        $sql = "SELECT * FROM purchase_items WHERE item_id = '$item_id'";
+        $query = $this->db->query($sql);
+        $count = $query->num_rows();
+        return $count;
+    }
+
+    public function get_purcase_id($item_id){
+        $sql = "SELECT * FROM purchase_items WHERE item_id = '$item_id'";
+        $query = $this->db->query($sql);
+        $row = $query->first_row();
+        return $row->id;
+    }
+
     
 
 }

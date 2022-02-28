@@ -51,6 +51,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+      
       $("#search_item").on("keyup", function(){
         var search_text = $(this).val();
           $.ajax({
