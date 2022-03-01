@@ -58,7 +58,7 @@
             url:"<?php echo base_url(); ?>Orders/item_search", //756
             type:"POST",
             cache:false,
-            data:{search_text:search_text},
+            data:{search_txt:search_text},
             success:function(data){
               //alert(data);
               $("#items").html(data);
@@ -75,7 +75,7 @@
         var balance = p_amount - t_amount;
         $("#balance").val(balance);
 
-        if (balance > 0){
+        if (balance >= 0){
           $("#btn_pay").removeAttr("disabled");
           $("#balance").css("border", "2px solid green");
         }

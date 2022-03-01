@@ -47,8 +47,8 @@ class Orders_model extends CI_Model
         return $result;
     }
 
-    public function order_item_available($item_id,$order_id){
-        $sql = "SELECT * FROM order_item WHERE order_id = $order_id AND item_id = '$item_id'";
+    public function order_item_available($item_id,$order_id,$p_id){
+        $sql = "SELECT * FROM order_item WHERE order_id = $order_id AND item_id = '$item_id' AND purchase_id = $p_id";
         $query = $this->db->query($sql);
         return $query->num_rows();
     }
@@ -65,13 +65,12 @@ class Orders_model extends CI_Model
         $purchase_data = $this->purchase_data($p_id); //532
         $item_data = $this->item_data($item_id);
         $item_name =$item_data->item_name;
-
         $price = $purchase_data->selling_price;
 
         //same item click
-        if ($this->order_item_available($item_id,$order_id) > 0) { //44
+        if ($this->order_item_available($item_id,$order_id,$p_id) > 0) { //44
             //update quantity by 1
-            $sql = "UPDATE order_item set qty = qty + 1 WHERE item_id = '$item_id' AND order_id = $order_id";
+            $sql = "UPDATE order_item set qty = qty + 1 WHERE item_id = '$item_id' AND order_id = $order_id AND purchase_id = $p_id";
             $query = $this->db->query($sql);
         }
         else{
@@ -891,6 +890,12 @@ class Orders_model extends CI_Model
         $query = $this->db->query($sql);
         $row = $query->first_row();
         return $row->id;
+    }
+
+    public function update_order_qty($id,$dis,$qty)
+    {
+        $sql = "UPDATE order_item set qty = $qty WHERE id = $id";
+        $this->db->query($sql);
     }
 
     

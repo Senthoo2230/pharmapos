@@ -17,6 +17,11 @@ class Orders extends CI_Controller {
             redirect('/LoginController/logout');
         }
     }
+    public function export_excel()
+    {
+        $this->load->view('orders/excel');
+    }
+
     public function index()
     {
         $data['page_title'] = 'Orders';
@@ -69,22 +74,10 @@ class Orders extends CI_Controller {
         $this->load->view('orders/footer');
     }
 
-    public function insert_order_item(){
-        //$p_id =  $this->uri->segment('3');
-        //$order_id =  $this->uri->segment('4');
-
-        $order_id = $this->input->post('order_id');
-        $p_id = $this->input->post('p_id');
-
-        //Get item id from purchase_items table
-        $purchase_data = $this->Orders_model->purchase_data($p_id);
-        $item_id = $purchase_data->item_id;
-
-        // Insert into order_items
-        $order_item_insert = $this->Orders_model->insert_order_item($item_id,$order_id,$p_id);//50
-        $order_items = $this->Orders_model->order_items();
+    public function order_items_ui($order_items,$order_id)
+    {
         ?>
-         <div class="add_items">
+        <div class="add_items">
                       <div class="m-top-10">
                         <table class="table">
                           <thead>
@@ -102,7 +95,7 @@ class Orders extends CI_Controller {
                             $sub_total = 0;
                             foreach ($order_items as $o_itm) {
                               ?>
-                              <tr>
+                              <tr data-toggle="modal" data-target="#update<?php echo $o_itm->id; ?>">
                                 <td class="text-center"><?php echo $i; ?></td>
                                 <td class="text-left"><?php echo $o_itm->item_name; ?></td>
                                 <td class="text-right"><?php echo $itm_amt =  $o_itm->amount; ?>.00</td>
@@ -112,6 +105,39 @@ class Orders extends CI_Controller {
                                   <a href="<?php echo base_url(); ?>Orders/delete_order_item/<?php echo $o_itm->id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                                 </td>
                               </tr>
+                              <!-- Qunatity Update Modal -->
+                              <div id="update<?php echo $o_itm->id; ?>" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                  <!-- Modal content-->
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 class="modal-title">Update</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form action="<?php echo base_url(); ?>Orders/update_order_qty" method="post">
+                                        <div class="row">
+                                        <input name="order_id" type="hidden" class="form-control" value="<?php echo $o_itm->id; ?>" >
+                                          <div class="col-sm-6">
+                                            <label for="">Quantity</label>
+                                            <input id="update_qty" style="height:100px; font-size:75px;" name="update_qty" type="text" class="form-control" value="<?php echo $itm_qty = $o_itm->qty; ?>">
+                                          </div>
+                                          <div class="col-sm-6">
+                                          <label for="">Discount</label>
+                                          <input style="height:100px; font-size:75px;" name="update_dis" type="text" class="form-control" value="0">
+                                          </div>
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-primary" value="Update">
+                                    </form>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
                               <?php
                               $sub_total = $sub_total+$item_total;
                               $i++;
@@ -309,12 +335,44 @@ class Orders extends CI_Controller {
                             $("#balance").css("border", "2px solid red");
                             }
                         });
-
-
                     });
                     </script>
-        <?php
 
+                <script>
+                    function clear_search(){
+                      $("#search_item").val("");
+                    }
+                    $(document).ready(function(){
+                      // Get the input field
+                      var input = document.getElementById("search_item");
+
+                      // Execute a function when the user releases a key on the keyboard
+                      input.addEventListener("keyup", function(event) {
+                        // Number 13 is the "Enter" key on the keyboard
+                        if (event.keyCode === 13) {
+                          // Cancel the default action, if needed
+                          event.preventDefault();
+                          // Trigger the button element with a click
+                          document.getElementById("clear_btn").click();
+                        }
+                      });
+                    });
+                </script>
+        <?php
+    }
+
+    public function insert_order_item(){
+        $order_id = $this->input->post('order_id');
+        $p_id = $this->input->post('p_id');
+
+        //Get item id from purchase_items table
+        $purchase_data = $this->Orders_model->purchase_data($p_id); //594
+        $item_id = $purchase_data->item_id;
+
+        // Insert into order_items
+        $this->Orders_model->insert_order_item($item_id,$order_id,$p_id);//64
+        $order_items = $this->Orders_model->order_items();
+        $this->order_items_ui($order_items,$order_id); // 77
         // Redirect to Add Order
         //redirect('/Orders/insert');
     }
@@ -884,12 +942,59 @@ class Orders extends CI_Controller {
     }
 
     public function item_search(){
-
-        if ($this->input->post('search_text')) {
-            $search_text = $this->input->post('search_text');
+            $search_text = $this->input->post('search_txt');
             $item_ok = $this->Orders_model->search_items_available($search_text);
             $order_id = $this->Orders_model->last_order_id();
             if ($search_text == "") {
+                $items = $this->Orders_model->purchase_items();
+                foreach ($items as $itm) {
+                        $p_id = $itm->id;
+                        ?>
+                        <a id="single_item<?php echo $p_id; ?>">
+                          <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="item_box">
+                              <div class="item_m">
+                                <?php
+                                $item_id = $itm->item_id;
+                                echo $this->Orders_model->barcode($item_id); 
+                                ?>
+                              </div>
+                              <div class="item_m">
+                                <?php echo $item_id = $itm->item_id; ?>
+                              </div>
+                              <div class="item_m fnt-bold" style="color:#313552;">
+                                <?php echo $this->Orders_model->item_name($item_id); ?>
+                              </div>
+                              <div class="item_m">
+                                Qty : <?php echo $item_id = $itm->quantity; ?>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                        <input hidden type="text" id="p_id<?php echo $p_id; ?>" value="<?php echo $p_id; ?>">
+                        <input hidden type="text" id="order_id<?php echo $p_id; ?>" value="<?php echo $order_id; ?>">
+                       
+                        <script>
+                          $(document).ready(function(){
+                            $("#single_item<?php echo $p_id; ?>").click(function(){
+                              var order_id = $("#order_id<?php echo $p_id; ?>").val();
+                              var p_id = $("#p_id<?php echo $p_id; ?>").val();
+                                $.ajax({
+                                  url:"<?php echo base_url(); ?>Orders/insert_order_item", //803
+                                  type:"POST",
+                                  cache:false,
+                                  data:{order_id:order_id,p_id:p_id},
+                                  success:function(data){
+                                    //alert(data);
+                                    $("#add_items").html(data);
+                                  }
+                                });
+                            }); 
+                          });
+                        </script>
+
+                        <?php
+                      }
             }
             else{
                 if ($item_ok == 1) {
@@ -962,7 +1067,16 @@ class Orders extends CI_Controller {
                         <?php
                 }
             }
-        }
+    }
+
+    public function update_order_qty()
+    {
+        $id = $this->input->post('order_id');
+        $dis = $this->input->post('update_dis');
+        $qty = $this->input->post('update_qty');
+        $this->Orders_model->update_order_qty($id,$dis,$qty);
+        // Redirect to Add Order
+        redirect('/Orders/insert');
     }
 
 

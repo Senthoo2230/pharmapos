@@ -80,7 +80,7 @@
                             $sub_total = 0;
                             foreach ($order_items as $o_itm) {
                               ?>
-                              <tr>
+                              <tr data-toggle="modal" data-target="#update<?php echo $o_itm->id; ?>">
                                 <td class="text-center"><?php echo $i; ?></td>
                                 <td class="text-left"><?php echo $o_itm->item_name; ?></td>
                                 <td class="text-right"><?php echo $itm_amt =  $o_itm->amount; ?>.00</td>
@@ -90,6 +90,45 @@
                                   <a href="<?php echo base_url(); ?>Orders/delete_order_item/<?php echo $o_itm->id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                                 </td>
                               </tr>
+
+                              <!-- Qunatity Update Modal -->
+                              <div id="update<?php echo $o_itm->id; ?>" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                  <!-- Modal content-->
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 class="modal-title">Update</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form action="<?php echo base_url(); ?>Orders/update_order_qty" method="post">
+                                        <div class="row">
+                                        <input name="order_id" type="hidden" class="form-control" value="<?php echo $o_itm->id; ?>" >
+                                          <div class="col-sm-6">
+                                            <label for="">Quantity</label>
+                                            <input id="update_qty" style="height:100px; font-size:75px;" name="update_qty" type="text" class="form-control" value="<?php echo $itm_qty = $o_itm->qty; ?>">
+                                          </div>
+                                          <div class="col-sm-6">
+                                          <label for="">Discount</label>
+                                          <input style="height:100px; font-size:75px;" name="update_dis" type="text" class="form-control" value="0">
+                                          </div>
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-primary" value="Update">
+                                    </form>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <script>
+                                window.onload = function() {
+                                  document.getElementById("update_qty").focus();
+                                };
+                              </script>
                               <?php
                               $sub_total = $sub_total+$item_total;
                               $i++;
@@ -299,7 +338,6 @@
                       foreach ($items as $itm) {
                         $p_id = $itm->id;
                         ?>
-
                         <a id="single_item<?php echo $p_id; ?>">
                           <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="item_box">
@@ -323,7 +361,7 @@
                         </a>
                         <input hidden type="text" id="p_id<?php echo $p_id; ?>" value="<?php echo $p_id; ?>">
                         <input hidden type="text" id="order_id<?php echo $p_id; ?>" value="<?php echo $order_id; ?>">
-
+                       
                         <script>
                           $(document).ready(function(){
                             $("#single_item<?php echo $p_id; ?>").click(function(){

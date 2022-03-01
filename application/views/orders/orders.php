@@ -23,7 +23,7 @@
           <!-- page start-->
           <div class="content-panel" >
             <div class="adv-table">
-              <table class="table table-hover table-bordered" id="hidden-table-info">
+              <table class="table table-hover table-bordered" id="order-tbl">
                 <thead>
                   <tr>
                     <th class="text-center">#</th>
