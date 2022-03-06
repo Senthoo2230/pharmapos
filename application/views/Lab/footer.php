@@ -122,42 +122,6 @@
 </script>
 
 <script type="text/javascript">
-  $(document).ready(function(){
-      // click one particular city name it's fill in textbox
-      $(document).on("click","#vehicle_no_list li", function(){
-
-        $('#vehicle_no').val($(this).text());
-        $('#vehicle_no_list').fadeOut("fast");
-        var v_no = $('#vehicle_no').val();
-
-        //$('#c_no').fadeOut("fast");
-
-         $.ajax({
-          url:"<?php echo base_url(); ?>Orders/contact_no",
-          type:"POST",
-          cache:false,
-          data:{v_no:v_no},
-          success:function(data){
-            $("#contact_no").val(data);
-            //alert(data);
-          }
-        });
-
-        $.ajax({
-          url:"<?php echo base_url(); ?>Orders/customername",
-          type:"POST",
-          cache:false,
-          data:{v_no:v_no},
-          success:function(data){
-            $("#customer_name").val(data);
-            //alert(data);
-          }
-        });
-      });
-  });
-</script>
-
-<script type="text/javascript">
 // Load doctors  and brand for special
     $(document).ready(function(){
       $("#service").change(function(){
@@ -175,6 +139,7 @@
         });
       });
 
+      //When Change location service charge 
       $("#location").change(function(){
         var service = $('#service').val();
         var location = $("#location").val();
@@ -206,6 +171,31 @@
           });
       });
     });
+
+    // Add Service for lap test
+    function addService(){
+        var invoice_no = $("#invoice_no").val();
+        var service_id = $("#service").val();
+        var location_id = $("#location").val();
+        var charge = $("#charge").val();
+
+        if (service_id == "") {
+          $("#service_error").html("Please Select Service");
+        }
+        else{
+          $("#service_error").html("");
+          $.ajax({
+            url:"<?php echo base_url(); ?>Laboratory/insert_service",
+            type:"POST",
+            cache:false,
+            data:{invoice_no:invoice_no,service_id:service_id,location_id:location_id,charge:charge},
+            success:function(data){
+              //alert(data);
+              $("#services").html(data);
+            }
+          });
+        }
+    }
 
     // Price for Service
     $(document).ready(function(){
@@ -252,26 +242,6 @@
           });
     }); 
 
-    // Price for Service
-    $(document).ready(function(){
-      $("#add_order_item").click(function(){
-        var order_no = $("#order_no").val();
-        var p_id = $("#p_id").val();
-        alert(p_id)
-          /*$.ajax({
-            url:"<?php echo base_url(); ?>Orders/insert_order_item", //803
-            type:"POST",
-            cache:false,
-            data:{bill_no:bill_no},
-            success:function(data){
-              //alert(data);
-              $("#service_tbl").html(data);
-              $('#service').val("");
-              $('#submit_btn').show();
-            }
-          });*/
-      }); 
-    });
   </script>
 </body>
 

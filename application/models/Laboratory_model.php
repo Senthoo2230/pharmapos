@@ -122,7 +122,40 @@ class Laboratory_model extends CI_Model
         $sql = "DELETE FROM lab_service WHERE id=$id";
         $query = $this->db->query($sql);
     }
-                        
+
+    public function insert_services($invoice_no,$service_id,$location_id,$charge)
+    {
+        $data = array(
+            'invoice_no' => $invoice_no,
+            'service_id' => $service_id,
+            'location_id' => $location_id,
+            'charge' => $charge
+        );
+    
+        $this->db->insert('lab_services', $data);
+    }
+
+    public function addedServices($invoice_no)
+    {
+        $sql = "SELECT * FROM lab_services WHERE invoice_no = $invoice_no ORDER BY created DESC";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
+    public function is_service($invoice_no)
+    {
+        $sql = "SELECT id FROM lab_services WHERE invoice_no = $invoice_no";
+        $query = $this->db->query($sql);
+        return $query->num_rows();
+    }
+
+    public function deleteService($id)
+    {
+        $sql = "DELETE FROM lab_services WHERE id=$id";
+        $query = $this->db->query($sql);
+    }
+
 }
 
 

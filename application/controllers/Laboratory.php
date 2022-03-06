@@ -90,12 +90,10 @@ class Laboratory extends CI_Controller
             $pname = $this->input->post('pname');
             $mobile = $this->input->post('mobile');
             $address = $this->input->post('address');
-            $service = $this->input->post('service');
-            $charge = $this->input->post('charge');
             $doctor = $this->input->post('doctor');
             $comment = $this->input->post('comment');
 
-            $this->Laboratory_model->insert_lab_service($id,$nic,$location,$service,$charge,$doctor,$comment);
+            $this->Laboratory_model->insert_lab_service($id,$nic,$location,$doctor,$comment);
             
             if ($this->Appoint_model->patient_available($nic) > 0) {
                 $this->Appoint_model->update_patient($nic,$pname,$mobile,$address);
@@ -106,6 +104,55 @@ class Laboratory extends CI_Controller
             $this->session->set_flashdata('labmsg',"<div class='alert alert-success'>Service Added Successfully!</div>");
             redirect('Laboratory/Add');
         }
+  }
+
+  // Service for Lab test
+  public function insert_service()
+  {
+    $invoice_no = $this->input->post('invoice_no');
+    $service_id = $this->input->post('service_id');
+    $location_id = $this->input->post('location_id');
+    $charge = $this->input->post('charge');
+
+    $this->Laboratory_model->insert_services($invoice_no,$service_id,$location_id,$charge);
+    $services = $this->Laboratory_model->addedServices($invoice_no);
+    // Service List
+    $this->service_list($services);
+  }
+
+  public function service_list($services)
+  {
+      ?>
+      <table class="table">
+        <thead>
+        <th class="text-center">No</th>
+        <th class="text-center">Service</th>
+        <th class="text-right">Amount</th>
+        <th class="text-center">Action</th>
+        </thead>
+        <tbody>
+            <?php
+            $i = 1;
+            foreach ($services as $service) {
+               ?>
+               <tr>
+                <td class="text-center"><?php echo $i; ?></td>
+                <td class="text-center">
+                    <?php 
+                    $service_id = $service->service_id;
+                    echo $this->Laboratory_model->get_service($service_id);
+                    ?>
+                </td>
+                <td class="text-right"><?php echo $service->charge; ?>.00</td>
+                <td class="text-center"><a href="<?php echo base_url(); ?>Laboratory/deleteService/<?php echo $service->id; ?>" class="btn btn-xs btn-danger">Delete</a></td>
+               </tr>
+               <?php
+               $i++;
+            }
+            ?>
+            </tbody>
+        </table>
+      <?php
   }
 
   public function update(){
@@ -174,6 +221,13 @@ class Laboratory extends CI_Controller
   {
     $id =  $this->input->post('id');
     $this->Laboratory_model->delete_service($id); //120
+  }
+// Delete Added Services
+  public function deleteService($id)
+  {
+        $this->Laboratory_model->deleteService($id); //153
+        redirect('Laboratory/Add');
+
   }
 }
 

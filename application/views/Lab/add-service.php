@@ -82,7 +82,7 @@
 
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Service<span style="color: red;"> *</span></label>
-                          <div class="col-sm-8">
+                          <div class="col-sm-4">
                               <select id="service" class="form-control" name="service">
                                 <option value="">Select Service</option>
                                 <?php
@@ -91,23 +91,56 @@
                                 }
                                 ?>
                               </select>
-                              <span class="text-danger"><?php echo form_error('service'); ?></span>
+                              <span class="text-danger" id="service_error"></span>
+                          </div>
+                          <div class="col-sm-4">
+                            <input type="text" class="form-control" id="charge" readonly id="charge">
                           </div>
                           <div class="col-sm-1" style="padding-right: 0px; padding-left: 0px;">
-                             <a href="<?php echo base_url(); ?>Doctor/Add">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_dr">
-                                  <i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>
-                             </a>
+                             <a onclick="addService()" class="btn btn-primary">Add</a>
                           </div>
+  
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Charge</label>
-                            <div class="col-sm-8">
-                            <input readonly type="text" value="<?php echo set_value('charge'); ?>" class="form-control" name="charge" id="charge">
-                            <span class="text-danger"><?php echo form_error('charge'); ?></span>
-                            </div>
+                        <div class="form-group" id="services">
+                            <?php
+                            $CI =& get_instance();
+                            $is_service = $CI->Laboratory_model->is_service($invoice_no);
+                            if ($is_service > 0) {
+                              $services = $CI->Laboratory_model->addedServices($invoice_no);
+                              ?>
+                              <table class="table table-hover">
+                                <thead>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Service</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-center">Action</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($services as $service) {
+                                      ?>
+                                      <tr>
+                                        <td class="text-center"><?php echo $i; ?></td>
+                                        <td class="text-center">
+                                            <?php 
+                                            $service_id = $service->service_id;
+                                            echo $this->Laboratory_model->get_service($service_id);
+                                            ?>
+                                        </td>
+                                        <td class="text-right"><?php echo $service->charge; ?>.00</td>
+                                        <td class="text-center"><a href="<?php echo base_url(); ?>Laboratory/deleteService/<?php echo $service->id; ?>" class="btn btn-xs btn-danger">Delete</a></td>
+                                      </tr>
+                                      <?php
+                                      $i++;
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                              <?php
+                            }
+                            ?>
                         </div>
 
                         <div class="form-group">
