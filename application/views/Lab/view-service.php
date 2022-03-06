@@ -27,8 +27,6 @@
                     <th>Name</th>
                     <th>Mobile</th>
                     <th>Location</th>
-                    <th>Service</th>
-                    <th>Amount</th>
                     <th>Doctor Ref</th>
                     <th>Comment</th>
                     <th class="text-center">Action</th>
@@ -41,14 +39,11 @@
                   foreach ($services as $service){
                     $nic = $service->patient_nic;
                     $location_id = $service->location_id;
-                    $service_id = $service->lab_service_id;
                     $doctor_id = $service->doctor_id;
                     // Get Patient Detail by nic
                     $patient = $CI->Laboratory_model->patient_detail($nic); //70
                     // Get Location Detail by location_id
                     $location = $CI->Laboratory_model->get_location($location_id); //77
-                    // Get Service name by service_id
-                    $service_name = $CI->Laboratory_model->get_service($service_id); //84
                     // Get Doctor name by doctor_id
                     $doctor_name = $CI->Laboratory_model->get_doctor($doctor_id); //91
                     ?>
@@ -58,9 +53,13 @@
                         <td><?php echo $patient->name; ?></td>
                         <td><?php echo $patient->mobile; ?></td>
                         <td><?php echo $location; ?></td>
-                        <td><?php echo $service_name; ?></td>
-                        <td><?php echo $service->amount; ?></td>
-                        <td><?php echo $doctor_name->name; ?></td>
+                        <td><?php
+                        if ($doctor_id != 0) {
+                          echo $doctor_name->name; 
+                        }
+                
+                        ?>
+                        </td>
                         <td><?php echo $service->comment; ?></td>
                         <td class="text-center">
                           <a href="<?php echo base_url(); ?>Laboratory/view_single/<?php echo $service->id; ?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a>

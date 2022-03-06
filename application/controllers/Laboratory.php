@@ -78,7 +78,6 @@ class Laboratory extends CI_Controller
     $this->form_validation->set_rules('nic', 'NIC Number', 'required');
         $this->form_validation->set_rules('pname', 'Patient Name', 'required');
         $this->form_validation->set_rules('mobile', 'Mobile Number', 'required');
-        $this->form_validation->set_rules('service', 'Service', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->Add();

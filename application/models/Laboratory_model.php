@@ -45,14 +45,12 @@ class Laboratory_model extends CI_Model
         return $row->amount;
     }
 
-    public function insert_lab_service($id,$nic,$location,$service,$charge,$doctor,$comment){
+    public function insert_lab_service($id,$nic,$location,$doctor,$comment){
         $data = array(
             'invoice_no' => $id,
             'user_id' => $this->session->user_id,
             'patient_nic' => $nic,
-            'lab_service_id' => $service,
             'location_id' => $location,
-            'amount' => $charge,
             'doctor_id' => $doctor,
             'comment' => $comment,
         );
